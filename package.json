@@ -1,0 +1,29 @@
+{
+  "name": "request-validator",
+  "version": "1.0.0",
+  "description": "A request validator",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "mocha --reporter spec"
+  },
+  "keywords": [
+    "REST",
+    "POST",
+    "GET",
+    "PATCH",
+    "DELETE"
+  ],
+  "author": "Elias Renman",
+  "repository": "https://github.com/Abborren/request-validatorjs",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.1",
+    "typescript": "^3.6.4"
+  },
+  "dependencies": {
+    "pluralize": "^8.0.0"
+  }
+}
