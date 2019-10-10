@@ -1,12 +1,19 @@
-import { Rule } from "../index";
+import { Rule } from "./Rule";
+/**
+ * Required rule class checks that a variable is in a payload.
+ */
 export declare class Required extends Rule {
+    /**
+     * @inheritDoc
+     */
     constructor();
     /**
      * @inheritDoc
+     * @return {boolean}
      */
-    statement(variable: any): boolean;
+    passes(variable: any): boolean;
     /**
      * @inheritDoc
      */
-    error(name: string): string;
+    message(name: string): string;
 }

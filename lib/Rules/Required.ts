@@ -14,6 +14,7 @@ export class Required extends Rule {
 
     /**
      * @inheritDoc
+     * @return {boolean}
      */
     passes(variable: any) {
         return typeof variable !== 'undefined';

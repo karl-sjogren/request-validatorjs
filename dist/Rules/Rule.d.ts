@@ -5,6 +5,7 @@
  */
 export declare class Rule {
     private name;
+    private values;
     /**
      * Initiates a new Rule class object with a name.
      * @param {string} name
@@ -23,9 +24,8 @@ export declare class Rule {
      *
      * @param variable
      * @returns {boolean} true if validation passes else false.
-     * @throws {Error} if method is called in child class without overriding it first.
      */
-    statement(variable: any): void;
+    passes(variable: any): boolean;
     /**
      * Returns a Validation message with a string message.
      *
@@ -33,12 +33,20 @@ export declare class Rule {
      * @return {string} message message as string.
      * @throws {Error} if method is called in child class without overriding it first.
      */
-    error(name: string): void;
+    message(name: string): void;
     /**
      * Sets this.name
      * @param {string} name rules name
      */
     setName(name: string): void;
+    /**
+     * Binds a value to the private variable values.
+     * This will be used if the Rule needs input variables.
+     * For example max length == 10.
+     *
+     * @param {*} values input values, currently any type. may change in the future.
+     */
+    setValues(values: any): void;
     /**
      * Gets rules name.
      * @returns {string} this rules name.

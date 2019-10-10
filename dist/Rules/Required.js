@@ -13,24 +13,31 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var index_1 = require("../index");
+var Rule_1 = require("./Rule");
+/**
+ * Required rule class checks that a variable is in a payload.
+ */
 var Required = /** @class */ (function (_super) {
     __extends(Required, _super);
+    /**
+     * @inheritDoc
+     */
     function Required() {
         return _super.call(this, 'required') || this;
     }
     /**
      * @inheritDoc
+     * @return {boolean}
      */
-    Required.prototype.statement = function (variable) {
+    Required.prototype.passes = function (variable) {
         return typeof variable !== 'undefined';
     };
     /**
      * @inheritDoc
      */
-    Required.prototype.error = function (name) {
+    Required.prototype.message = function (name) {
         return name + ' is required!';
     };
     return Required;
-}(index_1.Rule));
+}(Rule_1.Rule));
 exports.Required = Required;

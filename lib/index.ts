@@ -12,12 +12,13 @@ import {Rule} from "./Rules/Rule";
 import {Required} from "./Rules/RecommendedRules";
 
 /**
- * Will Validate Requests.
+ * This Class will Validate Requests.
  */
 class RequestValidator {
     private rules: Rule[];
 
     /**
+     * Initiates the Request Validator object
      *
      * @param {Rule[]} rules Array of additional rule classes to be registered in the validator.
      */
@@ -33,17 +34,43 @@ class RequestValidator {
      * @param {Object} data Json object containing
      * @param {Object} validation
      */
-    validate(data: object, validation: {}) {
-        console.log(data);
-        //TODO Continue on this function.
+    validate(data: object[], validation: {}) {
+        let errors: object[] = [];
         for (let key in validation) {
             // @ts-ignore
-            let value = validation[key];
-            console.log(key, value);
-            // Use `key` and `value`
+            let sRule = validation[key];
+            let rules: Rule[] = this._parseRules(sRule);
+
+            // @ts-ignore
+            let error = this._loopRules(rules, key, data[key]);
+            if (error) {
+                errors.push({"field": key, "error": error});
+            }
+            // Validate all data after the specified rules in the validation object array
+            // figure out what rules are what.
         }
-        // Validate all data after the specified rules in the validation object array
-        // figure out what rules are what.
+        return errors;
+    }
+
+    /**
+     * Loops through all the Rules and checks if the data passes that rule.
+     * If a test does not pass it returns the first error encountered.
+     *
+     * @param {Rule[]} rules array
+     * @param {string} name
+     * @param {string} data
+     * @return {string | null} Returns a string error message or null if all rules pass.
+     */
+    private _loopRules(rules: Rule[], name: string, data: string) {
+        let ret: string | null = null;
+        rules.forEach((element: Rule) => {
+            if (!element.passes(data)) {
+                // @ts-ignore
+                ret += element.message(name);
+                return;
+            }
+        });
+        return ret;
     }
 
     /**
@@ -57,37 +84,35 @@ class RequestValidator {
         let rules_array: Rule[] = [];
         let self = this;
 
-        //TODO
         rules.forEach((element: string) => {
             let ret = self._getRule(element);
-            // @ts-ignore
-            rules_array.push(ret);
+            if (ret) {
+                // @ts-ignore
+                rules_array.push(ret);
+            }
         });
-
         return rules_array;
-        // parse and return all relevant rule classes
     }
 
     /**
      * Gets a rule specified by the name.
      *
      * @param name lookup name.
-     * @returns {Rule} rule object.
-     * @throws {Error} if a rule is not found.
+     * @returns {Rule | boolean} rule object or false if there is no project with specified name.
      */
     private _getRule(name: string) {
         name = name.split(':')[0];
         let value = name.split(':')[1];
-
+        let ret;
         this.rules.forEach((element: Rule) => {
-            if (element.getName() === name) {
-                if (value) {
-                    element.setValues(value);
-                    return element;
-                }
+            if (element.getName() == name) {
+                if (value) element.setValues(value);
+                ret = element;
+                return;
             }
         });
-        throw new Error('Error this rule does not exist');
+        if (ret) return ret;
+        return false;
     }
 
 }

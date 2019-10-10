@@ -37,10 +37,9 @@ export class Rule {
      *
      * @param variable
      * @returns {boolean} true if validation passes else false.
-     * @throws {Error} if method is called in child class without overriding it first.
      */
     passes(variable: any) {
-        throw new Error('Cannot call abstract method');
+        return false;
     }
 
     /**

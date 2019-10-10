@@ -12,6 +12,7 @@ var Rule = /** @class */ (function () {
      */
     function Rule(name) {
         this.name = '';
+        this.values = '';
         this.setName(name);
         if (this.constructor === Rule) {
             throw new Error('Cannot instantiate abstract class');
@@ -35,10 +36,9 @@ var Rule = /** @class */ (function () {
      *
      * @param variable
      * @returns {boolean} true if validation passes else false.
-     * @throws {Error} if method is called in child class without overriding it first.
      */
-    Rule.prototype.statement = function (variable) {
-        throw new Error('Cannot call abstract method');
+    Rule.prototype.passes = function (variable) {
+        return false;
     };
     /**
      * Returns a Validation message with a string message.
@@ -47,7 +47,7 @@ var Rule = /** @class */ (function () {
      * @return {string} message message as string.
      * @throws {Error} if method is called in child class without overriding it first.
      */
-    Rule.prototype.error = function (name) {
+    Rule.prototype.message = function (name) {
         throw new Error('Cannot call abstract method');
     };
     /**
@@ -59,6 +59,16 @@ var Rule = /** @class */ (function () {
             throw new Error('Invalid naming format, please refrain from using spaces.');
         }
         this.name = name;
+    };
+    /**
+     * Binds a value to the private variable values.
+     * This will be used if the Rule needs input variables.
+     * For example max length == 10.
+     *
+     * @param {*} values input values, currently any type. may change in the future.
+     */
+    Rule.prototype.setValues = function (values) {
+        this.values = values;
     };
     /**
      * Gets rules name.
