@@ -8,9 +8,8 @@
  WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-
-import {Required} from './Rules/Required';
 import {Rule} from "./Rules/Rule";
+import {Required} from "./Rules/RecommendedRules";
 
 /**
  * Will Validate Requests.
@@ -20,22 +19,23 @@ class RequestValidator {
 
     /**
      *
-     * @param {Rules[]=} rules Array of additional rule classes to be registered in the validator.
+     * @param {Rule[]} rules Array of additional rule classes to be registered in the validator.
      */
-    constructor(rules = undefined) {
+    constructor(rules: Rule[] = []) {
         this.rules = [
             new Required()
-        ]
+        ];
+        this.rules.push(...rules);
     }
 
     /**
-     * Validates
+     * Validates A request.
      * @param {Object} data Json object containing
      * @param {Object} validation
      */
     validate(data: object, validation: {}) {
         console.log(data);
-
+        //TODO Continue on this function.
         for (let key in validation) {
             // @ts-ignore
             let value = validation[key];
@@ -50,16 +50,16 @@ class RequestValidator {
      * Parses the rules from a string to a array of Rule objects.
      *
      * @param string_rules rules as a string.
-     * @private
      * @return {Rule[]} instantiated rules in a array.
      */
-    _parseRules(string_rules: string) {
+    private _parseRules(string_rules: string) {
         let rules: string[] = string_rules.split('|');
         let rules_array: Rule[] = [];
         let self = this;
+
+        //TODO
         rules.forEach((element: string) => {
             let ret = self._getRule(element);
-            console.log(ret)
             // @ts-ignore
             rules_array.push(ret);
         });
@@ -75,9 +75,17 @@ class RequestValidator {
      * @returns {Rule} rule object.
      * @throws {Error} if a rule is not found.
      */
-    _getRule(name: string) {
+    private _getRule(name: string) {
+        name = name.split(':')[0];
+        let value = name.split(':')[1];
+
         this.rules.forEach((element: Rule) => {
-            if (element.getName() === name) return element;
+            if (element.getName() === name) {
+                if (value) {
+                    element.setValues(value);
+                    return element;
+                }
+            }
         });
         throw new Error('Error this rule does not exist');
     }

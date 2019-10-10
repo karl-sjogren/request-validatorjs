@@ -5,6 +5,7 @@
  */
 export class Rule {
     private name: string = '';
+    private values: any = '';
 
     /**
      * Initiates a new Rule class object with a name.
@@ -25,7 +26,7 @@ export class Rule {
      * @param {string} name string name of variable.
      * @return {boolean | string} boolean if the validation is successful else a message message as string.
      */
-    validate(variable: any, name: string) {
+    public validate(variable: any, name: string) {
         // @ts-ignore
         if (this.passes(variable)) return true;
         return this.message(name);
@@ -57,7 +58,7 @@ export class Rule {
      * Sets this.name
      * @param {string} name rules name
      */
-    setName(name: string) {
+    public setName(name: string) {
         if (/[\s|]/.test(name)) {
             throw new Error('Invalid naming format, please refrain from using spaces.');
         }
@@ -65,10 +66,21 @@ export class Rule {
     }
 
     /**
+     * Binds a value to the private variable values.
+     * This will be used if the Rule needs input variables.
+     * For example max length == 10.
+     *
+     * @param {*} values input values, currently any type. may change in the future.
+     */
+    public setValues(values: any) {
+        this.values = values;
+    }
+
+    /**
      * Gets rules name.
      * @returns {string} this rules name.
      */
-    getName() {
+    public getName() {
         return this.name;
     }
 }
