@@ -28,6 +28,6 @@ export class Max extends Rule {
      * @inheritDoc
      */
     message(name: string) {
-        return name + ' has a maximum allowed length of ' + this.values;
+        return name + ' requires a maximum length of ' + this.values;
     }
 }

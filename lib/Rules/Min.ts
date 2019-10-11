@@ -9,7 +9,7 @@ export class Min extends Rule {
      * @inheritDoc
      */
     constructor() {
-        super('max');
+        super('min');
     }
 
     /**
@@ -28,6 +28,6 @@ export class Min extends Rule {
      * @inheritDoc
      */
     message(name: string) {
-        return name + ' has a minimum allowed length of ' + this.values;
+        return name + ' requires a minimum length of ' + this.values;
     }
 }

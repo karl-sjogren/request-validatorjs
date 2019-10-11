@@ -23,7 +23,7 @@ var Min = /** @class */ (function (_super) {
      * @inheritDoc
      */
     function Min() {
-        return _super.call(this, 'max') || this;
+        return _super.call(this, 'min') || this;
     }
     /**
      * @inheritDoc
