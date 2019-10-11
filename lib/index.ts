@@ -47,8 +47,6 @@ class RequestValidator {
             if (error) {
                 errors.push({"field": key, "error": error});
             }
-            // Validate all data after the specified rules in the validation object array
-            // figure out what rules are what.
         }
         return errors;
     }
