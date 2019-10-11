@@ -40,7 +40,7 @@ var Max = /** @class */ (function (_super) {
      * @inheritDoc
      */
     Max.prototype.message = function (name) {
-        return name + ' has a maximum allowed length of ' + this.values;
+        return name + ' requires a maximum length of ' + this.values;
     };
     return Max;
 }(Rule_1.Rule));

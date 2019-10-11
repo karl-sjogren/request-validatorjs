@@ -40,7 +40,7 @@ var Min = /** @class */ (function (_super) {
      * @inheritDoc
      */
     Min.prototype.message = function (name) {
-        return name + ' has a minimum allowed length of ' + this.values;
+        return name + ' requires a minimum length of ' + this.values;
     };
     return Min;
 }(Rule_1.Rule));

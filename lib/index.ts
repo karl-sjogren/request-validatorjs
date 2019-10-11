@@ -9,7 +9,7 @@
  */
 
 import {Rule} from "./Rules/Rule";
-import * as StandardRules from "./Rules/RecommendedRules";
+import { RecommendedRules } from "./Rules/RecommendedRules";
 import * as _ from 'lodash';
 
 /**
@@ -24,12 +24,8 @@ class RequestValidator {
      * @param {Rule[]} rules Array of additional rule classes to be registered in the validator.
      */
     constructor(rules: Rule[] = []) {
-        this.rules = [
-            new StandardRules.Required(),
-            new StandardRules.Max(),
-            new StandardRules.Min()
-        ];
-        this.rules.push(...rules);
+        this.rules = [];
+        this.rules.push(...RecommendedRules, ...rules);
     }
 
     /**
@@ -39,7 +35,7 @@ class RequestValidator {
      * @param {Object} validation
      */
     validate(data: any, validation: {}) {
-        let errors: any = [];
+        let errors: any = {};
         _.forEach(validation, (value: string, key: string)=> {
             let rules: Rule[] = this._parseRules(value);
             let error = this._loopRules(rules, key, data[key]);
