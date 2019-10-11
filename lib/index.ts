@@ -9,7 +9,7 @@
  */
 
 import {Rule} from "./Rules/Rule";
-import { RecommendedRules } from "./Rules/RecommendedRules";
+import {RecommendedRules} from "./Rules/RecommendedRules";
 import * as _ from 'lodash';
 
 /**
@@ -29,20 +29,40 @@ class RequestValidator {
     }
 
     /**
-     * Validates A request.
+     * Validates A request and returns a object list of all errors indexed by their key name.
      *
      * @param {Object} data Json object containing
      * @param {Object} validation
      * @param {Object} custom_errors contains custom error messages
+     * @return {Object} returns all error messages as collection.
      */
     validate(data: any, validation: {}, custom_errors: any = {}) {
-        let errors: any = {};
-        _.forEach(validation, (value: string, key: string)=> {
+        let errorsCollection: any = {};
+        _.forEach(validation, (value: string, key: string) => {
+            let bail: any = this._checkBail(value);
+            value = bail[1];
+
             let rules: Rule[] = this._parseRules(value, custom_errors);
-            let error = this._loopRules(rules, key, data[key]);
-            if (error) errors[key] = {error};
+            let errors = this._loopRules(rules, key, data[key], bail[0]);
+            if (errors) errorsCollection[key] = {errors};
         });
-        return {"messages": errors};
+
+        return {"messages": errorsCollection};
+    }
+
+    /**
+     * Checks if a bail parameter is present.
+     * If it is preset in will be replaced cut out of the string and returned as the first index.
+     *
+     * @param value input value
+     * @return {any} returns array with two indexes, bail if present in the first and
+     * @private
+     */
+    private _checkBail(value: string) {
+        let bail = value.split("bail|");
+        if (bail.length > 1) {
+            return [true, bail[1]];
+        } else return [false, bail[0]];
     }
 
     /**
@@ -50,19 +70,20 @@ class RequestValidator {
      * If a test does not pass it returns the first error encountered.
      *
      * @param {Rule[]} rules array
-     * @param {string} name
-     * @param {string} data
-     * @return {string | null} Returns a string error message or null if all rules pass.
+     * @param {string} name the name of the key in the object
+     * @param {string} data the entire object
+     * @param {boolean} bail if bail is true then only one the first error will be returned.
+     * @return {string[] | null} Returns a string array with error messages or null if all rules pass.
      */
-    private _loopRules(rules: Rule[], name: string, data: string) {
-        let message: string = '';
+    private _loopRules(rules: Rule[], name: string, data: string, bail: boolean) {
+        let message: string[] = [];
         _.forEach(rules, (rule: Rule) => {
             if (!rule.passes(data)) {
-                message += rule.message(name);
-                return false;
+                message.push(rule.message(name));
+                if (bail) return false;
             }
         });
-        return (message == '') ? null : message;
+        return (message.length == 0) ? null : message;
     }
 
     /**
@@ -103,7 +124,6 @@ class RequestValidator {
         }
         return false;
     }
-
 }
 
 

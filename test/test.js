@@ -33,7 +33,9 @@ describe('RequestValidator testing', () => {
         let expected = {
             "messages": {
                 "something_else": {
-                    "error": "something_else is required!"
+                    "errors": [
+                        "something_else is required!"
+                    ]
                 }
             }
         };
@@ -58,7 +60,9 @@ describe('RequestValidator testing', () => {
         let expected = {
             "messages": {
                 "something_else": {
-                    "error": "something_else is required!"
+                    "errors": [
+                        "something_else is required!"
+                    ]
                 }
             }
         };
@@ -83,9 +87,17 @@ describe('testing rules', () => {
             "someValue": "required|max:5",
         });
         let expected = {
-            messages: {
-                aInt: {error: 'aInt is required to be a maximum length of 3'},
-                someValue: {error: 'someValue is required to be a maximum length of 5'}
+            "messages": {
+                "aInt": {
+                    "errors": [
+                        "aInt is required to be a maximum length of 3"
+                    ]
+                },
+                "someValue": {
+                    "errors": [
+                        "someValue is required to be a maximum length of 5"
+                    ]
+                }
             }
         };
 
@@ -107,11 +119,81 @@ describe('testing rules', () => {
         });
 
         let expected = {
-            messages:
-                {
-                    aInt: {error: 'aInt is required to be a minimum length of 4'},
-                    someValue: {error: 'someValue is required to be a minimum length of 15'}
+            "messages": {
+                "aInt": {
+                    "errors": [
+                        "aInt is required to be a minimum length of 4"
+                    ]
+                },
+                "someValue": {
+                    "errors": [
+                        "someValue is required to be a minimum length of 15"
+                    ]
                 }
+            }
+        };
+        expect(response).to.eql(expected);
+    });
+
+    it('should return multiple rule violations', () => {
+        var request = new requestValidator();
+        let data = {
+            "token": "some value",
+            "someValue": "test",
+            "aInt": 0,
+
+        };
+
+        let response = request.validate(data, {
+            "aInt": "required|min:4|max:10",
+            "someValue": "required|min:15",
+        });
+
+        let expected = {
+            "messages": {
+                "aInt": {
+                    "errors": [
+                        "aInt is required!",
+                        "aInt is required to be a minimum length of 4"
+                    ]
+                },
+                "someValue": {
+                    "errors": [
+                        "someValue is required to be a minimum length of 15"
+                    ]
+                }
+            }
+        };
+        expect(response).to.eql(expected);
+    });
+
+    it('should return one error on aInt because bail rule is set', () => {
+        var request = new requestValidator();
+        let data = {
+            "token": "some value",
+            "someValue": "test",
+            "aInt": 0,
+
+        };
+
+        let response = request.validate(data, {
+            "aInt": "bail|required|min:4|max:10",
+            "someValue": "required|min:15",
+        });
+
+        let expected = {
+            "messages": {
+                "aInt": {
+                    "errors": [
+                        "aInt is required!",
+                    ]
+                },
+                "someValue": {
+                    "errors": [
+                        "someValue is required to be a minimum length of 15"
+                    ]
+                }
+            }
         };
         expect(response).to.eql(expected);
     });
@@ -126,7 +208,15 @@ describe('testing rules', () => {
         let response = request.validate(data, {
             "email": "required|email",
         });
-        let expected = {messages: {email: {error: "Invalid email address!"}}};
+        let expected = {
+            "messages": {
+                "email": {
+                    "errors": [
+                        "Invalid email address!"
+                    ]
+                }
+            }
+        };
         expect(response).to.eql(expected);
     });
 
@@ -148,7 +238,7 @@ describe('testing rules', () => {
     it('should test a valid json', () => {
         var request = new requestValidator();
         let data = {
-            "json": '{"messages": {"email": {"error": "email is not a valid email!"}}}',
+            "json": '{"messages": {"email": {"errors": "email is not a valid email!"}}}',
 
         };
 
@@ -187,9 +277,11 @@ describe('testing rules', () => {
         });
 
         let expected = {
-            messages: {
+            "messages": {
                 "username": {
-                    "error": "Invalid username!"
+                    "errors": [
+                        "Invalid username!"
+                    ]
                 }
             }
         };
@@ -214,7 +306,9 @@ describe('testing rules', () => {
         let expected = {
             "messages": {
                 "username": {
-                    "error": "username is not a username! Invalid usernameÖ"
+                    "errors": [
+                        "username is not a username! Invalid usernameÖ"
+                    ]
                 }
             }
         };
@@ -239,7 +333,9 @@ describe('testing rules', () => {
         let expected = {
             "messages": {
                 "username": {
-                    "error": "username has a maximum allowed length of 15"
+                    "errors": [
+                        "username has a maximum allowed length of 15"
+                    ]
                 }
             }
         };
