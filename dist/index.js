@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Rule_1 = require("./Rules/Rule");
 exports.Rule = Rule_1.Rule;
 var RecommendedRules_1 = require("./Rules/RecommendedRules");
+var _ = require("lodash");
 /**
  * This Class will Validate Requests.
  */
@@ -98,15 +99,20 @@ var RequestValidator = /** @class */ (function () {
     RequestValidator.prototype._getRule = function (name) {
         name = name.split(':')[0];
         var value = name.split(':')[1];
-        var ret;
-        this.rules.forEach(function (element) {
-            if (element.getName() == name) {
-                if (value)
-                    element.setValues(value);
-                ret = element;
-                return;
-            }
+        var ret = _.find(this.rules, function (el) {
+            return el.getName() == name;
         });
+        // this.rules.forEach((element: Rule) => {
+        //     if (element.getName() == name) {
+        //         // if the rule contains any values add them to the rule.
+        //         if (value) element.setValues(value);
+        //         ret = element;
+        //         return;
+        //     }
+        // });
+        // @ts-ignore
+        if (value)
+            ret.setValues(value);
         if (ret)
             return ret;
         return false;

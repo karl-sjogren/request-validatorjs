@@ -10,6 +10,7 @@
 
 import {Rule} from "./Rules/Rule";
 import {Required} from "./Rules/RecommendedRules";
+import * as _ from 'lodash';
 
 /**
  * This Class will Validate Requests.
@@ -102,16 +103,14 @@ class RequestValidator {
      */
     private _getRule(name: string) {
         name = name.split(':')[0];
-        let value = name.split(':')[1];
-        let ret;
-        this.rules.forEach((element: Rule) => {
-            if (element.getName() == name) {
-                if (value) element.setValues(value);
-                ret = element;
-                return;
-            }
+        let rule: Rule | undefined = _.find(this.rules, (el: Rule) => {
+            return el.getName() == name;
         });
-        if (ret) return ret;
+
+        let value = name.split(':')[1];
+        // @ts-ignore
+        if (value) rule.setValues(value);
+        if (rule) return rule;
         return false;
     }
 
