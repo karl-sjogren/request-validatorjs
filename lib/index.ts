@@ -9,7 +9,7 @@
  */
 
 import {Rule} from "./Rules/Rule";
-import {Required, Max} from "./Rules/RecommendedRules";
+import * as StandardRules from "./Rules/RecommendedRules";
 import * as _ from 'lodash';
 
 /**
@@ -25,8 +25,9 @@ class RequestValidator {
      */
     constructor(rules: Rule[] = []) {
         this.rules = [
-            new Required(),
-            new Max()
+            new StandardRules.Required(),
+            new StandardRules.Max(),
+            new StandardRules.Min()
         ];
         this.rules.push(...rules);
     }

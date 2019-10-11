@@ -11,7 +11,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var Rule_1 = require("./Rules/Rule");
 exports.Rule = Rule_1.Rule;
-var RecommendedRules_1 = require("./Rules/RecommendedRules");
+var StandardRules = require("./Rules/RecommendedRules");
 var _ = require("lodash");
 /**
  * This Class will Validate Requests.
@@ -26,8 +26,9 @@ var RequestValidator = /** @class */ (function () {
         var _a;
         if (rules === void 0) { rules = []; }
         this.rules = [
-            new RecommendedRules_1.Required(),
-            new RecommendedRules_1.Max()
+            new StandardRules.Required(),
+            new StandardRules.Max(),
+            new StandardRules.Min()
         ];
         (_a = this.rules).push.apply(_a, rules);
     }
