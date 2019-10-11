@@ -42,16 +42,12 @@ let errors = request.validate(data,{
 ```
 Example print of errors as defined in javascript.
 ```json
-[
+{"messages":
   {
-    "field": "mayNotBeNull",
-    "message": "mayNotBeNull is not allowed to be null!"
-  },
-  {
-    "field": "doesNotExistInData",
-    "message": "doesNotExistInData is required!"
+    "doesNotExistInData": "doesNotExistInData is required!",
+    "mayNotBeNull": "mayNotBeNull is required!"
   }
-]
+}
 ```
 ## Test
 ```sh
