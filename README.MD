@@ -1,13 +1,10 @@
 # Request Validator
-Currently under construction.
-
 A Node.js module for validating any kind of js dictionary.
 Inspired by the Request Validation feature in [laravel](https://laravel.com/docs/5.8/validation).
  
 ## Installation 
-Not yet published on NPM!
 ```sh
-npm install request-validator --save
+npm install request-validator
 ```
 ## Usage
 Some simple examples of usages of this package.
@@ -15,7 +12,7 @@ Some simple examples of usages of this package.
 A example data payload looks like this
 ```JSON
 {
-  "token": "some value",
+  "token": "",
   "someValue": "This has a value",
   "aInt": 0,
   "mayNotBeNull": null
@@ -43,13 +40,22 @@ let errors = request.validate(data,{
 Example print of errors as defined in javascript.
 ```json
 {
-  "messages": {
-    "doesNotExistInData": "doesNotExistInData is required!",
-    "mayNotBeNull": "mayNotBeNull is required!"
-  }
+    "messages": {
+        "aInt": {
+            "errors": [
+                "token is required!"
+            ]
+        },
+        "someValue": {
+            "errors": [
+                "someValue is required to be a minimum length of 15"
+            ]
+        }
+    }
 }
 ```
 ## Test
+Running the mocha unit tests are done by running the following command:
 ```sh
 npm run test
 ```
