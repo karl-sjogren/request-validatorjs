@@ -10,6 +10,7 @@ export class Min extends Rule {
      */
     constructor() {
         super('min');
+        this.errorMessage = ':attribute is required to be a minimum length of :param';
     }
 
     /**
@@ -17,17 +18,11 @@ export class Min extends Rule {
      * @return {boolean}
      */
     passes(variable: any) {
+        super.passes(variable);
         this.values = parseInt(this.values);
         if(typeof variable === 'number') {
             return variable >= this.values;
         }
         return variable.length >= this.values;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    message(name: string) {
-        return name + ' requires a minimum length of ' + this.values;
     }
 }

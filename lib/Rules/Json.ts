@@ -10,6 +10,7 @@ export class Json extends Rule {
      */
     constructor() {
         super('json');
+        this.errorMessage = 'Invalid json!';
     }
 
     /**
@@ -23,12 +24,5 @@ export class Json extends Rule {
             return false;
         }
         return true;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    message(name: string) {
-        return name + ' is not a valid json!';
     }
 }

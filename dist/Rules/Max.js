@@ -23,24 +23,21 @@ var Max = /** @class */ (function (_super) {
      * @inheritDoc
      */
     function Max() {
-        return _super.call(this, 'max') || this;
+        var _this = _super.call(this, 'max') || this;
+        _this.errorMessage = ':attribute is required to be a maximum length of :param';
+        return _this;
     }
     /**
      * @inheritDoc
      * @return {boolean}
      */
     Max.prototype.passes = function (variable) {
+        _super.prototype.passes.call(this, variable);
         this.values = parseInt(this.values);
         if (typeof variable === 'number') {
             return variable <= this.values;
         }
         return variable.length <= this.values;
-    };
-    /**
-     * @inheritDoc
-     */
-    Max.prototype.message = function (name) {
-        return name + ' requires a maximum length of ' + this.values;
     };
     return Max;
 }(Rule_1.Rule));

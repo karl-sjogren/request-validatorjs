@@ -40,12 +40,14 @@ var RequestValidator = /** @class */ (function () {
      *
      * @param {Object} data Json object containing
      * @param {Object} validation
+     * @param {Object} custom_errors contains custom error messages
      */
-    RequestValidator.prototype.validate = function (data, validation) {
+    RequestValidator.prototype.validate = function (data, validation, custom_errors) {
         var _this = this;
+        if (custom_errors === void 0) { custom_errors = {}; }
         var errors = {};
         _.forEach(validation, function (value, key) {
-            var rules = _this._parseRules(value);
+            var rules = _this._parseRules(value, custom_errors);
             var error = _this._loopRules(rules, key, data[key]);
             if (error)
                 errors[key] = { error: error };
@@ -75,16 +77,21 @@ var RequestValidator = /** @class */ (function () {
      * Parses the rules from a string to a array of Rule objects.
      *
      * @param string_rules rules as a string.
+     * @param custom_errors contains custom error messages
      * @return {Rule[]} instantiated rules in a array.
      */
-    RequestValidator.prototype._parseRules = function (string_rules) {
+    RequestValidator.prototype._parseRules = function (string_rules, custom_errors) {
         var _this = this;
+        if (custom_errors === void 0) { custom_errors = {}; }
         var rules = string_rules.split('|');
         var rules_array = [];
-        rules.forEach(function (rule) {
-            var error = _this._getRule(rule);
-            if (error) {
-                rules_array.push(error);
+        rules.forEach(function (sRule) {
+            var rule = _this._getRule(sRule);
+            if (rule) {
+                var message = custom_errors[rule.getName()];
+                if (message)
+                    rule.setErrorMessage(message);
+                rules_array.push(rule);
             }
         });
         return rules_array;

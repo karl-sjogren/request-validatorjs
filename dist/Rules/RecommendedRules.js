@@ -5,7 +5,8 @@ var Max_1 = require("./Max");
 var Min_1 = require("./Min");
 var Email_1 = require("./Email");
 var Json_1 = require("./Json");
-var String_1 = require("./String");
+var RuleString_1 = require("./RuleString");
+var Username_1 = require("./Username");
 /**
  * Exports the recommended rules in a bundle to ease import lines.
  */
@@ -15,5 +16,6 @@ exports.RecommendedRules = [
     new Min_1.Min(),
     new Email_1.Email(),
     new Json_1.Json(),
-    new String_1.RuleString(),
+    new RuleString_1.RuleString(),
+    new Username_1.Username(),
 ];

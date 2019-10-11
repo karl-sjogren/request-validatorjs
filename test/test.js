@@ -84,8 +84,8 @@ describe('testing rules', () => {
         });
         let expected = {
             messages: {
-                aInt: {error: 'aInt has a maximum allowed length of 3'},
-                someValue: {error: 'someValue has a maximum allowed length of 5'}
+                aInt: {error: 'aInt is required to be a maximum length of 3'},
+                someValue: {error: 'someValue is required to be a maximum length of 5'}
             }
         };
 
@@ -109,8 +109,8 @@ describe('testing rules', () => {
         let expected = {
             messages:
                 {
-                    aInt: {error: 'aInt requires a minimum length of 4'},
-                    someValue: {error: 'someValue requires a minimum length of 15'}
+                    aInt: {error: 'aInt is required to be a minimum length of 4'},
+                    someValue: {error: 'someValue is required to be a minimum length of 15'}
                 }
         };
         expect(response).to.eql(expected);
@@ -126,7 +126,7 @@ describe('testing rules', () => {
         let response = request.validate(data, {
             "email": "required|email",
         });
-        let expected = {messages: {email: {error: 'email is not a valid email!'}}};
+        let expected = {messages: {email: {error: "Invalid email address!"}}};
         expect(response).to.eql(expected);
     });
 
@@ -157,6 +157,93 @@ describe('testing rules', () => {
         });
 
         let expected = {messages: {}};
+        expect(response).to.eql(expected);
+    });
+
+    it('should test a valid username', () => {
+        var request = new requestValidator();
+        let data = {
+            "username": "testUsername",
+
+        };
+
+        let response = request.validate(data, {
+            "username": "required|username",
+        });
+
+        let expected = {messages: {}};
+        expect(response).to.eql(expected);
+    });
+
+    it('should test a invalid username', () => {
+        var request = new requestValidator();
+        let data = {
+            "username": "testUsernameÖ",
+
+        };
+
+        let response = request.validate(data, {
+            "username": "required|username",
+        });
+
+        let expected = {
+            messages: {
+                "username": {
+                    "error": "Invalid username!"
+                }
+            }
+        };
+        expect(response).to.eql(expected);
+    });
+
+    it('should test a invalid username with custom error message', () => {
+        var request = new requestValidator();
+        let data = {
+            "username": "Invalid usernameÖ",
+
+        };
+
+        let custom_errors = {
+            "username": ':attribute is not a username! :value'
+        };
+
+        let response = request.validate(data, {
+            "username": "required|username",
+        }, custom_errors);
+
+        let expected = {
+            "messages": {
+                "username": {
+                    "error": "username is not a username! Invalid usernameÖ"
+                }
+            }
+        };
+        expect(response).to.eql(expected);
+    });
+
+    it('should test a invalid length with custom error message', () => {
+        var request = new requestValidator();
+        let data = {
+            "username": "testUsernameThatIsToLong",
+        };
+
+        let custom_errors = {
+            "username": ':attribute is not a username! :value',
+            "max": ":attribute has a maximum allowed length of :param",
+        };
+
+        let response = request.validate(data, {
+            "username": "required|username|max:15",
+        }, custom_errors);
+
+        let expected = {
+            "messages": {
+                "username": {
+                    "error": "username has a maximum allowed length of 15"
+                }
+            }
+        };
+
         expect(response).to.eql(expected);
     });
 });

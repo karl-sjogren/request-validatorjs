@@ -30,14 +30,15 @@ class RequestValidator {
 
     /**
      * Validates A request.
-     * 
+     *
      * @param {Object} data Json object containing
      * @param {Object} validation
+     * @param {Object} custom_errors contains custom error messages
      */
-    validate(data: any, validation: {}) {
+    validate(data: any, validation: {}, custom_errors: any = {}) {
         let errors: any = {};
         _.forEach(validation, (value: string, key: string)=> {
-            let rules: Rule[] = this._parseRules(value);
+            let rules: Rule[] = this._parseRules(value, custom_errors);
             let error = this._loopRules(rules, key, data[key]);
             if (error) errors[key] = {error};
         });
@@ -68,15 +69,18 @@ class RequestValidator {
      * Parses the rules from a string to a array of Rule objects.
      *
      * @param string_rules rules as a string.
+     * @param custom_errors contains custom error messages
      * @return {Rule[]} instantiated rules in a array.
      */
-    private _parseRules(string_rules: string) {
+    private _parseRules(string_rules: string, custom_errors: any = {}) {
         let rules: string[] = string_rules.split('|');
         let rules_array: Rule[] = [];
-        rules.forEach((rule: string) => {
-            let error = this._getRule(rule);
-            if (error) {
-                rules_array.push(error);
+        rules.forEach((sRule: string) => {
+            let rule = this._getRule(sRule);
+            if (rule) {
+                let message = custom_errors[rule.getName()];
+                if (message) rule.setErrorMessage(message);
+                rules_array.push(rule);
             }
         });
         return rules_array;
@@ -95,8 +99,8 @@ class RequestValidator {
         });
         if (rule) {
             rule.setValues(name.split(':')[1]);
-            return rule;  
-        } 
+            return rule;
+        }
         return false;
     }
 

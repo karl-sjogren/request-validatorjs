@@ -23,24 +23,21 @@ var Required = /** @class */ (function (_super) {
      * @inheritDoc
      */
     function Required() {
-        return _super.call(this, 'required') || this;
+        var _this = _super.call(this, 'required') || this;
+        _this.errorMessage = ':attribute is required!';
+        return _this;
     }
     /**
      * @inheritDoc
      * @return {boolean}
      */
     Required.prototype.passes = function (variable) {
+        _super.prototype.passes.call(this, variable);
         if (typeof variable === 'undefined')
             return false;
         if (typeof variable !== 'number')
             variable = variable.length;
         return variable > 0;
-    };
-    /**
-     * @inheritDoc
-     */
-    Required.prototype.message = function (name) {
-        return name + ' is required!';
     };
     return Required;
 }(Rule_1.Rule));

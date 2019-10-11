@@ -23,24 +23,21 @@ var Min = /** @class */ (function (_super) {
      * @inheritDoc
      */
     function Min() {
-        return _super.call(this, 'min') || this;
+        var _this = _super.call(this, 'min') || this;
+        _this.errorMessage = ':attribute is required to be a minimum length of :param';
+        return _this;
     }
     /**
      * @inheritDoc
      * @return {boolean}
      */
     Min.prototype.passes = function (variable) {
+        _super.prototype.passes.call(this, variable);
         this.values = parseInt(this.values);
         if (typeof variable === 'number') {
             return variable >= this.values;
         }
         return variable.length >= this.values;
-    };
-    /**
-     * @inheritDoc
-     */
-    Min.prototype.message = function (name) {
-        return name + ' requires a minimum length of ' + this.values;
     };
     return Min;
 }(Rule_1.Rule));

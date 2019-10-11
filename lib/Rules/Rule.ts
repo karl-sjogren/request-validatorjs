@@ -4,8 +4,12 @@
  * Pass custom rule in constructor of RequestValidator.
  */
 export class Rule {
+
     private name: string = '';
     values: any = '';
+    private variable: any = '';
+
+    public errorMessage = 'Abstract error message.';
 
     /**
      * Initiates a new Rule class object with a name.
@@ -39,18 +43,26 @@ export class Rule {
      * @returns {boolean} true if validation passes else false.
      */
     passes(variable: any) {
+        this.variable = variable;
         return false;
     }
 
     /**
      * Returns a Validation message with a string message.
      *
+     * If the error message contains any of the following placeholders they will be replaced.
+     * :attribute will be replaced with the fields name.
+     * :param will be replaced with the parameter in the rule, for example max:3, param = 3.
+     * :value will be replaced by the actual input value of the field.
+     *
      * @param {string} name of the passed variable.
      * @return {string} message message as string.
      * @throws {Error} if method is called in child class without overriding it first.
      */
     message(name: string) {
-        throw new Error('Cannot call abstract method');
+        return this.errorMessage.replace(":attribute", name)
+            .replace(":param", this.values)
+            .replace(":value", this.variable);
     }
 
     /**
@@ -62,6 +74,17 @@ export class Rule {
             throw new Error('Invalid naming format, please refrain from using spaces.');
         }
         this.name = name;
+    }
+
+    /**
+     * Sets the error message to a custom error message.
+     * Certain placeholders can be apart of the error message see:
+     * @see message for details.
+     *
+     * @param value the new error message.
+     */
+    public setErrorMessage(value: string) {
+        this.errorMessage = value;
     }
 
     /**

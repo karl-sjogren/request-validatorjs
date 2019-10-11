@@ -24,8 +24,9 @@ declare class RequestValidator {
      *
      * @param {Object} data Json object containing
      * @param {Object} validation
+     * @param {Object} custom_errors contains custom error messages
      */
-    validate(data: any, validation: {}): {
+    validate(data: any, validation: {}, custom_errors?: any): {
         "messages": any;
     };
     /**
@@ -42,6 +43,7 @@ declare class RequestValidator {
      * Parses the rules from a string to a array of Rule objects.
      *
      * @param string_rules rules as a string.
+     * @param custom_errors contains custom error messages
      * @return {Rule[]} instantiated rules in a array.
      */
     private _parseRules;

@@ -10,6 +10,7 @@ export class Max extends Rule {
      */
     constructor() {
         super('max');
+        this.errorMessage = ':attribute is required to be a maximum length of :param';
     }
 
     /**
@@ -17,17 +18,11 @@ export class Max extends Rule {
      * @return {boolean}
      */
     passes(variable: any) {
+        super.passes(variable);
         this.values = parseInt(this.values);
         if(typeof variable === 'number') {
             return variable <= this.values;
         }
         return variable.length <= this.values;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    message(name: string) {
-        return name + ' requires a maximum length of ' + this.values;
     }
 }

@@ -10,6 +10,7 @@ export class RuleString extends Rule {
      */
     constructor() {
         super('string');
+        this.errorMessage = 'Is not a string!';
     }
 
     /**
@@ -17,13 +18,7 @@ export class RuleString extends Rule {
      * @return {boolean}
      */
     passes(variable: any) {
+        super.passes(variable);
         return typeof variable === 'string';
-    }
-
-    /**
-     * @inheritDoc
-     */
-    message(name: string) {
-        return name + ' needs to be a string!';
     }
 }

@@ -10,6 +10,7 @@ export class Required extends Rule {
      */
     constructor() {
         super('required');
+        this.errorMessage = ':attribute is required!';
     }
 
     /**
@@ -17,15 +18,9 @@ export class Required extends Rule {
      * @return {boolean}
      */
     passes(variable: any) {
+        super.passes(variable);
         if (typeof variable === 'undefined') return false;
         if(typeof variable !== 'number') variable = variable.length;
         return variable > 0;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    message(name: string) {
-        return name + ' is required!';
     }
 }

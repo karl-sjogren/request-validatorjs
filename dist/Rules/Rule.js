@@ -13,6 +13,8 @@ var Rule = /** @class */ (function () {
     function Rule(name) {
         this.name = '';
         this.values = '';
+        this.variable = '';
+        this.errorMessage = 'Abstract error message.';
         this.setName(name);
         if (this.constructor === Rule) {
             throw new Error('Cannot instantiate abstract class');
@@ -38,17 +40,25 @@ var Rule = /** @class */ (function () {
      * @returns {boolean} true if validation passes else false.
      */
     Rule.prototype.passes = function (variable) {
+        this.variable = variable;
         return false;
     };
     /**
      * Returns a Validation message with a string message.
+     *
+     * If the error message contains any of the following placeholders they will be replaced.
+     * :attribute will be replaced with the fields name.
+     * :param will be replaced with the parameter in the rule, for example max:3, param = 3.
+     * :value will be replaced by the actual input value of the field.
      *
      * @param {string} name of the passed variable.
      * @return {string} message message as string.
      * @throws {Error} if method is called in child class without overriding it first.
      */
     Rule.prototype.message = function (name) {
-        throw new Error('Cannot call abstract method');
+        return this.errorMessage.replace(":attribute", name)
+            .replace(":param", this.values)
+            .replace(":value", this.variable);
     };
     /**
      * Sets this.name
@@ -59,6 +69,16 @@ var Rule = /** @class */ (function () {
             throw new Error('Invalid naming format, please refrain from using spaces.');
         }
         this.name = name;
+    };
+    /**
+     * Sets the error message to a custom error message.
+     * Certain placeholders can be apart of the error message see:
+     * @see message for details.
+     *
+     * @param value the new error message.
+     */
+    Rule.prototype.setErrorMessage = function (value) {
+        this.errorMessage = value;
     };
     /**
      * Binds a value to the private variable values.

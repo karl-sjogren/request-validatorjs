@@ -12,8 +12,4 @@ export declare class Max extends Rule {
      * @return {boolean}
      */
     passes(variable: any): boolean;
-    /**
-     * @inheritDoc
-     */
-    message(name: string): string;
 }

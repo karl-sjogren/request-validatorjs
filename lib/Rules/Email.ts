@@ -10,6 +10,7 @@ export class Email extends Rule {
      */
     constructor() {
         super('email');
+        this.errorMessage = 'Invalid email address!';
     }
 
     /**
@@ -19,12 +20,5 @@ export class Email extends Rule {
     passes(variable: any) {
         let regex = /[a-z0-9!#$%&'*+\/=?^_{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9][a-z0-9-]*[a-z0-9]/;
         return regex.test(variable);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    message(name: string) {
-        return name + ' is not a valid email!';
     }
 }
