@@ -32,23 +32,18 @@ class RequestValidator {
 
     /**
      * Validates A request.
+     * 
      * @param {Object} data Json object containing
      * @param {Object} validation
      */
-    validate(data: object[], validation: {}) {
-        let errors: object[] = [];
-        for (let key in validation) {
-            // @ts-ignore
-            let sRule = validation[key];
-            let rules: Rule[] = this._parseRules(sRule);
-
-            // @ts-ignore
+    validate(data: any, validation: {}) {
+        let errors: any = [];
+        _.forEach(validation, (value: string, key: string)=> {
+            let rules: Rule[] = this._parseRules(value);
             let error = this._loopRules(rules, key, data[key]);
-            if (error) {
-                errors.push({"field": key, "error": error});
-            }
-        }
-        return errors;
+            if (error) errors[key] = error;
+        });
+        return {"messages": errors};
     }
 
     /**
@@ -61,15 +56,14 @@ class RequestValidator {
      * @return {string | null} Returns a string error message or null if all rules pass.
      */
     private _loopRules(rules: Rule[], name: string, data: string) {
-        let ret: string | null = null;
-        rules.forEach((element: Rule) => {
-            if (!element.passes(data)) {
-                // @ts-ignore
-                ret += element.message(name);
+        let message: string = '';
+        rules.forEach((rule: Rule) => {
+            if (!rule.passes(data)) {
+                message += rule.message(name);
                 return;
             }
         });
-        return ret;
+        return (message == '') ? null : message;
     }
 
     /**
@@ -81,13 +75,10 @@ class RequestValidator {
     private _parseRules(string_rules: string) {
         let rules: string[] = string_rules.split('|');
         let rules_array: Rule[] = [];
-        let self = this;
-
-        rules.forEach((element: string) => {
-            let ret = self._getRule(element);
-            if (ret) {
-                // @ts-ignore
-                rules_array.push(ret);
+        rules.forEach((rule: string) => {
+            let error = this._getRule(rule);
+            if (error) {
+                rules_array.push(error);
             }
         });
         return rules_array;
@@ -104,11 +95,10 @@ class RequestValidator {
         let rule: Rule | undefined = _.find(this.rules, (el: Rule) => {
             return el.getName() == name;
         });
-
-        let value = name.split(':')[1];
-        // @ts-ignore
-        if (value) rule.setValues(value);
-        if (rule) return rule;
+        if (rule) {
+            rule.setValues(name.split(':')[1]);
+            return rule;  
+        } 
         return false;
     }
 

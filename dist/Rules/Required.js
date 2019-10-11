@@ -30,7 +30,7 @@ var Required = /** @class */ (function (_super) {
      * @return {boolean}
      */
     Required.prototype.passes = function (variable) {
-        return typeof variable !== 'undefined';
+        return typeof variable !== 'undefined' && variable.length > 0;
     };
     /**
      * @inheritDoc

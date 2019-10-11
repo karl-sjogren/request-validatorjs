@@ -21,10 +21,13 @@ declare class RequestValidator {
     constructor(rules?: Rule[]);
     /**
      * Validates A request.
+     *
      * @param {Object} data Json object containing
      * @param {Object} validation
      */
-    validate(data: object[], validation: {}): object[];
+    validate(data: any, validation: {}): {
+        "messages": any;
+    };
     /**
      * Loops through all the Rules and checks if the data passes that rule.
      * If a test does not pass it returns the first error encountered.

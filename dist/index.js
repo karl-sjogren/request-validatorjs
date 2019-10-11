@@ -32,24 +32,20 @@ var RequestValidator = /** @class */ (function () {
     }
     /**
      * Validates A request.
+     *
      * @param {Object} data Json object containing
      * @param {Object} validation
      */
     RequestValidator.prototype.validate = function (data, validation) {
+        var _this = this;
         var errors = [];
-        for (var key in validation) {
-            // @ts-ignore
-            var sRule = validation[key];
-            var rules = this._parseRules(sRule);
-            // @ts-ignore
-            var error = this._loopRules(rules, key, data[key]);
-            if (error) {
-                errors.push({ "field": key, "error": error });
-            }
-            // Validate all data after the specified rules in the validation object array
-            // figure out what rules are what.
-        }
-        return errors;
+        _.forEach(validation, function (value, key) {
+            var rules = _this._parseRules(value);
+            var error = _this._loopRules(rules, key, data[key]);
+            if (error)
+                errors[key] = error;
+        });
+        return { "messages": errors };
     };
     /**
      * Loops through all the Rules and checks if the data passes that rule.
@@ -61,15 +57,14 @@ var RequestValidator = /** @class */ (function () {
      * @return {string | null} Returns a string error message or null if all rules pass.
      */
     RequestValidator.prototype._loopRules = function (rules, name, data) {
-        var ret = null;
-        rules.forEach(function (element) {
-            if (!element.passes(data)) {
-                // @ts-ignore
-                ret += element.message(name);
+        var message = '';
+        rules.forEach(function (rule) {
+            if (!rule.passes(data)) {
+                message += rule.message(name);
                 return;
             }
         });
-        return ret;
+        return (message == '') ? null : message;
     };
     /**
      * Parses the rules from a string to a array of Rule objects.
@@ -78,14 +73,13 @@ var RequestValidator = /** @class */ (function () {
      * @return {Rule[]} instantiated rules in a array.
      */
     RequestValidator.prototype._parseRules = function (string_rules) {
+        var _this = this;
         var rules = string_rules.split('|');
         var rules_array = [];
-        var self = this;
-        rules.forEach(function (element) {
-            var ret = self._getRule(element);
-            if (ret) {
-                // @ts-ignore
-                rules_array.push(ret);
+        rules.forEach(function (rule) {
+            var error = _this._getRule(rule);
+            if (error) {
+                rules_array.push(error);
             }
         });
         return rules_array;
@@ -98,23 +92,15 @@ var RequestValidator = /** @class */ (function () {
      */
     RequestValidator.prototype._getRule = function (name) {
         name = name.split(':')[0];
-        var value = name.split(':')[1];
-        var ret = _.find(this.rules, function (el) {
+        var rule = _.find(this.rules, function (el) {
             return el.getName() == name;
         });
-        // this.rules.forEach((element: Rule) => {
-        //     if (element.getName() == name) {
-        //         // if the rule contains any values add them to the rule.
-        //         if (value) element.setValues(value);
-        //         ret = element;
-        //         return;
-        //     }
-        // });
+        var value = name.split(':')[1];
         // @ts-ignore
         if (value)
-            ret.setValues(value);
-        if (ret)
-            return ret;
+            rule.setValues(value);
+        if (rule)
+            return rule;
         return false;
     };
     return RequestValidator;

@@ -16,7 +16,7 @@ describe('RequestValidator testing', () => {
         expect(result.rules.length > 0);
     });
 
-    it('should Return error message', () => {
+    it('should Return message with something_else is required!', () => {
         var request = new requestValidator();
         let data = {
             "token": "some value",
@@ -29,8 +29,26 @@ describe('RequestValidator testing', () => {
             "token": "required",
             "something_else": "required",
         });
+        console.log(response);
+        expect(response === "{ something_else: 'nullsomething_else is required!' }");
+    });
 
-        expect(response[0].error > 0);
-    })
+    it('should Return error message', () => {
+        var request = new requestValidator();
+        let data = {
+            "token": "some value",
+            "someValue": "This has a value",
+            "aInt": 0,
+            "mayNotBeNull": null,
+            "something_else": ""
+        };
+
+        let response = request.validate(data, {
+            "token": "required",
+            "something_else": "required",
+        });
+        console.log(response);
+        expect(response === "{ something_else: 'nullsomething_else is required!' }");
+    });
 
 });
