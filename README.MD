@@ -54,6 +54,12 @@ Example print of errors as defined in javascript.
     }
 }
 ```
+
+### Writing custom rules
+For writing custom rules there a simple placeholder values that should be place in the errorMessage string. the available placeholders:
+ :attribute will be replaced with the fields name.<br>
+ :param will be replaced with the parameter in the rule, for example max:3, param = 3.<br>
+ :value will be replaced by the actual input value of the field.     
 ## Test
 Running the mocha unit tests are done by running the following command:
 ```sh
