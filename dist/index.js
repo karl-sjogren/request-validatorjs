@@ -95,12 +95,10 @@ var RequestValidator = /** @class */ (function () {
         var rule = _.find(this.rules, function (el) {
             return el.getName() == name;
         });
-        var value = name.split(':')[1];
-        // @ts-ignore
-        if (value)
-            rule.setValues(value);
-        if (rule)
+        if (rule) {
+            rule.setValues(name.split(':')[1]);
             return rule;
+        }
         return false;
     };
     return RequestValidator;
