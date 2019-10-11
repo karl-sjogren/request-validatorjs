@@ -42,8 +42,8 @@ let errors = request.validate(data,{
 ```
 Example print of errors as defined in javascript.
 ```json
-{"messages":
-  {
+{
+  "messages": {
     "doesNotExistInData": "doesNotExistInData is required!",
     "mayNotBeNull": "mayNotBeNull is required!"
   }
