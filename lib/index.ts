@@ -9,7 +9,7 @@
  */
 
 import {Rule} from "./Rules/Rule";
-import {Required} from "./Rules/RecommendedRules";
+import {Required, Max} from "./Rules/RecommendedRules";
 import * as _ from 'lodash';
 
 /**
@@ -25,7 +25,8 @@ class RequestValidator {
      */
     constructor(rules: Rule[] = []) {
         this.rules = [
-            new Required()
+            new Required(),
+            new Max()
         ];
         this.rules.push(...rules);
     }
@@ -41,7 +42,7 @@ class RequestValidator {
         _.forEach(validation, (value: string, key: string)=> {
             let rules: Rule[] = this._parseRules(value);
             let error = this._loopRules(rules, key, data[key]);
-            if (error) errors[key] = error;
+            if (error) errors[key] = {error};
         });
         return {"messages": errors};
     }
@@ -57,10 +58,10 @@ class RequestValidator {
      */
     private _loopRules(rules: Rule[], name: string, data: string) {
         let message: string = '';
-        rules.forEach((rule: Rule) => {
+        _.forEach(rules, (rule: Rule) => {
             if (!rule.passes(data)) {
                 message += rule.message(name);
-                return;
+                return false;
             }
         });
         return (message == '') ? null : message;
@@ -91,9 +92,9 @@ class RequestValidator {
      * @returns {Rule | boolean} rule object or false if there is no project with specified name.
      */
     private _getRule(name: string) {
-        name = name.split(':')[0];
+        let rule_name = name.split(':')[0];
         let rule: Rule | undefined = _.find(this.rules, (el: Rule) => {
-            return el.getName() == name;
+            return el.getName() == rule_name;
         });
         if (rule) {
             rule.setValues(name.split(':')[1]);

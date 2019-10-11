@@ -5,7 +5,7 @@
  */
 export declare class Rule {
     private name;
-    private values;
+    values: any;
     /**
      * Initiates a new Rule class object with a name.
      * @param {string} name

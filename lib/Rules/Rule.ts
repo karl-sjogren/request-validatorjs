@@ -5,7 +5,7 @@
  */
 export class Rule {
     private name: string = '';
-    private values: any = '';
+    values: any = '';
 
     /**
      * Initiates a new Rule class object with a name.

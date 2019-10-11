@@ -52,3 +52,22 @@ describe('RequestValidator testing', () => {
     });
 
 });
+
+
+describe('testing rules', () => {
+    it('should return a rules values', () => {
+        var request = new requestValidator();
+        let data = {
+            "token": "some value",
+            "someValue": "This has a value",
+            "aInt": 25,
+
+        };
+
+        let response = request.validate(data, {
+            "aInt": "required|max:3",
+            "someValue": "required|max:5",
+        });
+        console.log(response);
+    });
+});

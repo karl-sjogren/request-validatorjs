@@ -26,7 +26,8 @@ var RequestValidator = /** @class */ (function () {
         var _a;
         if (rules === void 0) { rules = []; }
         this.rules = [
-            new RecommendedRules_1.Required()
+            new RecommendedRules_1.Required(),
+            new RecommendedRules_1.Max()
         ];
         (_a = this.rules).push.apply(_a, rules);
     }
@@ -43,7 +44,7 @@ var RequestValidator = /** @class */ (function () {
             var rules = _this._parseRules(value);
             var error = _this._loopRules(rules, key, data[key]);
             if (error)
-                errors[key] = error;
+                errors[key] = { error: error };
         });
         return { "messages": errors };
     };
@@ -58,10 +59,10 @@ var RequestValidator = /** @class */ (function () {
      */
     RequestValidator.prototype._loopRules = function (rules, name, data) {
         var message = '';
-        rules.forEach(function (rule) {
+        _.forEach(rules, function (rule) {
             if (!rule.passes(data)) {
                 message += rule.message(name);
-                return;
+                return false;
             }
         });
         return (message == '') ? null : message;
@@ -91,9 +92,9 @@ var RequestValidator = /** @class */ (function () {
      * @returns {Rule | boolean} rule object or false if there is no project with specified name.
      */
     RequestValidator.prototype._getRule = function (name) {
-        name = name.split(':')[0];
+        var rule_name = name.split(':')[0];
         var rule = _.find(this.rules, function (el) {
-            return el.getName() == name;
+            return el.getName() == rule_name;
         });
         if (rule) {
             rule.setValues(name.split(':')[1]);

@@ -15,33 +15,33 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Rule_1 = require("./Rule");
 /**
- * Required rule class checks that a variable is in a payload.
+ * Max rule class checks that a variable has a maximum length of variable.
  */
-var Required = /** @class */ (function (_super) {
-    __extends(Required, _super);
+var Max = /** @class */ (function (_super) {
+    __extends(Max, _super);
     /**
      * @inheritDoc
      */
-    function Required() {
-        return _super.call(this, 'required') || this;
+    function Max() {
+        return _super.call(this, 'max') || this;
     }
     /**
      * @inheritDoc
      * @return {boolean}
      */
-    Required.prototype.passes = function (variable) {
-        if (typeof variable === 'undefined')
-            return false;
-        if (typeof variable !== 'number')
-            variable = variable.length;
-        return variable > 0;
+    Max.prototype.passes = function (variable) {
+        this.values = parseInt(this.values);
+        if (typeof variable === 'number') {
+            return variable <= this.values;
+        }
+        return variable.length <= this.values;
     };
     /**
      * @inheritDoc
      */
-    Required.prototype.message = function (name) {
-        return name + ' is required!';
+    Max.prototype.message = function (name) {
+        return name + ' has a maximum allowed length of ' + this.values;
     };
-    return Required;
+    return Max;
 }(Rule_1.Rule));
-exports.Required = Required;
+exports.Max = Max;

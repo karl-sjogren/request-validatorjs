@@ -17,7 +17,9 @@ export class Required extends Rule {
      * @return {boolean}
      */
     passes(variable: any) {
-        return typeof variable !== 'undefined' && variable.length > 0;
+        if (typeof variable === 'undefined') return false;
+        if(typeof variable !== 'number') variable = variable.length;
+        return variable > 0;
     }
 
     /**
