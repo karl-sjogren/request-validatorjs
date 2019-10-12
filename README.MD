@@ -4,7 +4,7 @@ Inspired by the Request Validation feature in [laravel](https://laravel.com/docs
  
 ## Installation 
 ```sh
-npm install request-validator
+npm install request-validator-js
 ```
 ## Usage
 For more in depth on how the package works check out the [docs.](https://abborren.github.io/request-validatorjs/)
@@ -23,7 +23,7 @@ A example data payload looks like this
 
 ### Javascript
 ```javascript
-var RequestValidator = require('request-validator');
+var RequestValidator = require('request-validator-js');
 var request = new RequestValidator();
 let errors = request.validate(data,{
     'token': 'required|max:255',
@@ -33,7 +33,7 @@ let errors = request.validate(data,{
 ```
 ### TypeScript
 ```typescript
-import { RequestValidator } from 'request-validator';
+import { RequestValidator } from 'request-validator-js';
 let request = new RequestValidator();
 let errors = request.validate(data,{
     'token': 'required|max:255',
@@ -88,7 +88,7 @@ The output would looks like this.
 ```
 ## Rules
 ### Available rules
-For a list of currently available rule see [RULES](https://github.com/Abborren/request-validatorjs/blob/master/RULES.MD) <br>
+For a list of currently available rule see [RULES](https://github.com/Abborren/request-validatorjs/blob/master/RULES.md) <br>
 A quick reference for the rules are:
 * required
 * min:int
