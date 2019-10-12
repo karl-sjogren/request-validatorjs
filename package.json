@@ -1,13 +1,14 @@
 {
   "name": "request-validator-js",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A request validator for auto generating error messages",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "test": "mocha --reporter spec",
-    "build-docs": "node_modules/.bin/typedoc --out docs lib"
+    "build-docs": "node_modules/.bin/typedoc --out docs lib",
+    "prepublish": "npm run build"
   },
   "keywords": [
     "REST",
@@ -27,5 +28,6 @@
   },
   "dependencies": {
     "@types/lodash": "^4.14.144"
-  }
+  },
+  "files": ["dist/**/*"]
 }
