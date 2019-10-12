@@ -1,6 +1,6 @@
 {
   "name": "request-validator-js",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A request validator for auto generating error messages",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -29,5 +29,7 @@
   "dependencies": {
     "@types/lodash": "^4.14.144"
   },
-  "files": ["dist/**/*"]
+  "files": [
+    "dist/**/*"
+  ]
 }
