@@ -39,15 +39,15 @@ let errors = request.validate(data,{
     'token': 'required|max:255',
     });
 ```
-Example print of errors as defined in javascript.
+Example output of the errors produces in the javascript example.
 ```json
 {
-    "messages": {
+    "errors": {
         "aInt": [
             "token is required!"
         ],
         "someValue": [
-                "someValue is required to be a minimum length of 15"
+            "someValue is required to be a minimum length of 15"
         ]
     }
 }

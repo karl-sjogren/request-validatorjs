@@ -1,7 +1,7 @@
 import {Rule} from "./Rule";
 
 /**
- * Required rule class checks that a variable is a valid Email address.
+ * Required rule class checks that a variable is a valid URL address.
  */
 export class Url extends Rule {
 

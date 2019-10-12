@@ -76,6 +76,7 @@
 				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
 					<h2>Usage</h2>
 				</a>
+				<p>For more in depth on how the package works check out the <a href="https://abborren.github.io/request-validatorjs/">docs.</a></p>
 				<p>Some simple examples of usages of this package.</p>
 				<a href="#example-payload" id="example-payload" style="color: inherit; text-decoration: none;">
 					<h3>Example payload</h3>
@@ -85,7 +86,7 @@
   <span class="hljs-attr">"token"</span>: <span class="hljs-string">""</span>,
   <span class="hljs-attr">"someValue"</span>: <span class="hljs-string">"This has a value"</span>,
   <span class="hljs-attr">"aInt"</span>: <span class="hljs-number">0</span>,
-  <span class="hljs-attr">"mayNotBeNull"</span>: <span class="hljs-literal">null</span>
+  <span class="hljs-attr">"needsToBeString"</span>: <span class="hljs-number">255</span>
 }</code></pre>
 				<a href="#javascript" id="javascript" style="color: inherit; text-decoration: none;">
 					<h3>Javascript</h3>
@@ -94,7 +95,7 @@
 <span class="hljs-keyword">var</span> request = <span class="hljs-keyword">new</span> RequestValidator();
 <span class="hljs-keyword">let</span> errors = request.validate(data,{
     <span class="hljs-string">'token'</span>: <span class="hljs-string">'required|max:255'</span>,
-    <span class="hljs-string">'mayNotBeNull'</span>: <span class="hljs-string">'required|notNull'</span>,
+    <span class="hljs-string">'needsToBeString'</span>: <span class="hljs-string">'required|string'</span>,
     <span class="hljs-string">'doesNotExistInData'</span>: <span class="hljs-string">'required'</span>,
     });</code></pre>
 				<a href="#typescript" id="typescript" style="color: inherit; text-decoration: none;">
@@ -105,14 +106,14 @@
 <span class="hljs-keyword">let</span> errors = request.validate(data,{
     <span class="hljs-string">'token'</span>: <span class="hljs-string">'required|max:255'</span>,
     });</code></pre>
-				<p>Example print of errors as defined in javascript.</p>
+				<p>Example output of the errors produces in the javascript example.</p>
 				<pre><code class="language-json">{
-    <span class="hljs-attr">"messages"</span>: {
+    <span class="hljs-attr">"errors"</span>: {
         <span class="hljs-attr">"aInt"</span>: [
             <span class="hljs-string">"token is required!"</span>
         ],
         <span class="hljs-attr">"someValue"</span>: [
-                <span class="hljs-string">"someValue is required to be a minimum length of 15"</span>
+            <span class="hljs-string">"someValue is required to be a minimum length of 15"</span>
         ]
     }
 }</code></pre>
