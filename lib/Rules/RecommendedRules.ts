@@ -5,6 +5,7 @@ import {Email} from "./Email";
 import {Json} from "./Json";
 import {RuleString} from "./RuleString";
 import {Username} from "./Username";
+import {Url} from "./Url";
 
 /**
  * Exports the recommended rules in a bundle to ease import lines.
@@ -17,4 +18,5 @@ export var RecommendedRules = [
     new Json(),
     new RuleString(),
     new Username(),
+    new Url()
 ];

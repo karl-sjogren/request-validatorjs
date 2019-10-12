@@ -108,22 +108,68 @@
 				<p>Example print of errors as defined in javascript.</p>
 				<pre><code class="language-json">{
     <span class="hljs-attr">"messages"</span>: {
-        <span class="hljs-attr">"aInt"</span>: {
-            <span class="hljs-attr">"errors"</span>: [
-                <span class="hljs-string">"token is required!"</span>
-            ]
-        },
-        <span class="hljs-attr">"someValue"</span>: {
-            <span class="hljs-attr">"errors"</span>: [
+        <span class="hljs-attr">"aInt"</span>: [
+            <span class="hljs-string">"token is required!"</span>
+        ],
+        <span class="hljs-attr">"someValue"</span>: [
                 <span class="hljs-string">"someValue is required to be a minimum length of 15"</span>
-            ]
-        }
+        ]
     }
 }</code></pre>
+				<a href="#using-custom-error-messages" id="using-custom-error-messages" style="color: inherit; text-decoration: none;">
+					<h3>Using custom error messages</h3>
+				</a>
+				<p>A example for </p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">var</span> data = {
+    <span class="hljs-string">"name"</span>: <span class="hljs-string">"example"</span>,
+
+};
+
+<span class="hljs-keyword">var</span> custom_errors = {
+    <span class="hljs-comment">//Custom error message for the rule called "username"</span>
+    <span class="hljs-string">"username"</span>: <span class="hljs-string">"field :attribute with the value :value is not a valid username!"</span>
+};
+
+<span class="hljs-keyword">var</span> validation = {
+    <span class="hljs-comment">/* This will validate that the field name exists and that it is not empty and that it is a valid username */</span>
+    <span class="hljs-string">"name"</span>: <span class="hljs-string">"required|username"</span>,
+}
+
+<span class="hljs-comment">// In this example no errors will be present since example is a vaild username.</span>
+<span class="hljs-keyword">var</span> response = request.validate(data, validation, custom_errors);</code></pre>
+				<p>Above example with the data field &quot;name&quot; being a invalid username,<br>
+					example: &quot;invalid username&quot; contains spaces which is not allowed. <br>
+				The output would looks like this.</p>
+				<pre><code class="language-JSON">{
+    <span class="hljs-attr">"errors"</span>: {
+        <span class="hljs-attr">"name"</span>: [
+             <span class="hljs-string">"field name with the value invalid username is not a valid username!"</span>
+        ]
+    }
+}</code></pre>
+				<a href="#rules" id="rules" style="color: inherit; text-decoration: none;">
+					<h2>Rules</h2>
+				</a>
+				<a href="#available-rules" id="available-rules" style="color: inherit; text-decoration: none;">
+					<h3>Available rules</h3>
+				</a>
+				<p>For a list of currently available rule see <a href="https://github.com/Abborren/request-validatorjs/blob/master/RULES.MD">RULES</a> <br>
+				A quick reference for the rules are:</p>
+				<ul>
+					<li>required</li>
+					<li>min:int</li>
+					<li>max:int</li>
+					<li>boolean</li>
+					<li>string</li>
+					<li>email</li>
+					<li>url</li>
+					<li>json</li>
+					<li>username</li>
+				</ul>
 				<a href="#writing-custom-rules" id="writing-custom-rules" style="color: inherit; text-decoration: none;">
 					<h3>Writing custom rules</h3>
 				</a>
-				<p>For writing custom rules there a simple placeholder values that should be place in the errorMessage string. the available placeholders:
+				<p>For writing custom rules there a simple placeholder values that should be place in the errorMessage string. the available placeholders: <br>
 					:attribute will be replaced with the fields name.<br>
 					:param will be replaced with the parameter in the rule, for example max:3, param = 3.<br>
 				:value will be replaced by the actual input value of the field.     </p>
@@ -167,6 +213,9 @@
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/rulestring.html" class="tsd-kind-icon">Rule<wbr>String</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/url.html" class="tsd-kind-icon">Url</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/username.html" class="tsd-kind-icon">Username</a>

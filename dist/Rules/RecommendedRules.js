@@ -7,6 +7,7 @@ var Email_1 = require("./Email");
 var Json_1 = require("./Json");
 var RuleString_1 = require("./RuleString");
 var Username_1 = require("./Username");
+var Url_1 = require("./Url");
 /**
  * Exports the recommended rules in a bundle to ease import lines.
  */
@@ -18,4 +19,5 @@ exports.RecommendedRules = [
     new Json_1.Json(),
     new RuleString_1.RuleString(),
     new Username_1.Username(),
+    new Url_1.Url()
 ];

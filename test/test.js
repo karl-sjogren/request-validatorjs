@@ -31,15 +31,12 @@ describe('RequestValidator testing', () => {
             "something_else": "required",
         });
         let expected = {
-            "messages": {
-                "something_else": {
-                    "errors": [
-                        "something_else is required!"
-                    ]
-                }
+            "errors": {
+                "something_else": [
+                    "something_else is required!",
+                ]
             }
         };
-
         expect(response).to.eql(expected);
     });
 
@@ -58,18 +55,17 @@ describe('RequestValidator testing', () => {
             "something_else": "required",
         });
         let expected = {
-            "messages": {
-                "something_else": {
-                    "errors": [
-                        "something_else is required!"
-                    ]
-                }
+            "errors": {
+                "something_else": [
+                    "something_else is required!"
+                ]
             }
         };
         expect(response).to.eql(expected);
     });
 
-});
+})
+;
 
 
 describe('testing rules', () => {
@@ -87,17 +83,13 @@ describe('testing rules', () => {
             "someValue": "required|max:5",
         });
         let expected = {
-            "messages": {
-                "aInt": {
-                    "errors": [
-                        "aInt is required to be a maximum length of 3"
-                    ]
-                },
-                "someValue": {
-                    "errors": [
-                        "someValue is required to be a maximum length of 5"
-                    ]
-                }
+            "errors": {
+                "aInt": [
+                    "aInt is required to be a maximum length of 3"
+                ],
+                "someValue": [
+                    "someValue is required to be a maximum length of 5"
+                ]
             }
         };
 
@@ -119,17 +111,14 @@ describe('testing rules', () => {
         });
 
         let expected = {
-            "messages": {
-                "aInt": {
-                    "errors": [
-                        "aInt is required to be a minimum length of 4"
-                    ]
-                },
-                "someValue": {
-                    "errors": [
-                        "someValue is required to be a minimum length of 15"
-                    ]
-                }
+            "errors": {
+                "aInt": [
+
+                    "aInt is required to be a minimum length of 4"
+                ],
+                "someValue": [
+                    "someValue is required to be a minimum length of 15"
+                ]
             }
         };
         expect(response).to.eql(expected);
@@ -150,18 +139,14 @@ describe('testing rules', () => {
         });
 
         let expected = {
-            "messages": {
-                "aInt": {
-                    "errors": [
-                        "aInt is required!",
-                        "aInt is required to be a minimum length of 4"
-                    ]
-                },
-                "someValue": {
-                    "errors": [
-                        "someValue is required to be a minimum length of 15"
-                    ]
-                }
+            "errors": {
+                "aInt": [
+                    "aInt is required!",
+                    "aInt is required to be a minimum length of 4"
+                ],
+                "someValue": [
+                    "someValue is required to be a minimum length of 15"
+                ]
             }
         };
         expect(response).to.eql(expected);
@@ -182,17 +167,14 @@ describe('testing rules', () => {
         });
 
         let expected = {
-            "messages": {
-                "aInt": {
-                    "errors": [
-                        "aInt is required!",
-                    ]
-                },
-                "someValue": {
-                    "errors": [
-                        "someValue is required to be a minimum length of 15"
-                    ]
-                }
+            "errors": {
+                "aInt": [
+                    "aInt is required!",
+                ],
+                "someValue": [
+                    "someValue is required to be a minimum length of 15",
+                ]
+
             }
         };
         expect(response).to.eql(expected);
@@ -209,12 +191,10 @@ describe('testing rules', () => {
             "email": "required|email",
         });
         let expected = {
-            "messages": {
-                "email": {
-                    "errors": [
-                        "Invalid email address!"
-                    ]
-                }
+            "errors": {
+                "email": [
+                    "Invalid email address!"
+                ]
             }
         };
         expect(response).to.eql(expected);
@@ -231,14 +211,14 @@ describe('testing rules', () => {
             "email": "required|email",
         });
 
-        let expected = {messages: {}};
+        let expected = {"errors": {}};
         expect(response).to.eql(expected);
     });
 
     it('should test a valid json', () => {
         var request = new requestValidator();
         let data = {
-            "json": '{"messages": {"email": {"errors": "email is not a valid email!"}}}',
+            "json": '{"errors": {"email": {"errors": "email is not a valid email!"}}}',
 
         };
 
@@ -246,7 +226,7 @@ describe('testing rules', () => {
             "json": "required|json",
         });
 
-        let expected = {messages: {}};
+        let expected = {"errors": {}};
         expect(response).to.eql(expected);
     });
 
@@ -261,7 +241,7 @@ describe('testing rules', () => {
             "username": "required|username",
         });
 
-        let expected = {messages: {}};
+        let expected = {"errors": {}};
         expect(response).to.eql(expected);
     });
 
@@ -277,12 +257,10 @@ describe('testing rules', () => {
         });
 
         let expected = {
-            "messages": {
-                "username": {
-                    "errors": [
-                        "Invalid username!"
-                    ]
-                }
+            "errors": {
+                "username": [
+                    "Invalid username!",
+                ]
             }
         };
         expect(response).to.eql(expected);
@@ -304,12 +282,11 @@ describe('testing rules', () => {
         }, custom_errors);
 
         let expected = {
-            "messages": {
-                "username": {
-                    "errors": [
-                        "username is not a username! Invalid usernameÖ"
-                    ]
-                }
+            "errors": {
+                "username": [
+
+                    "username is not a username! Invalid usernameÖ"
+                ]
             }
         };
         expect(response).to.eql(expected);
@@ -331,12 +308,10 @@ describe('testing rules', () => {
         }, custom_errors);
 
         let expected = {
-            "messages": {
-                "username": {
-                    "errors": [
-                        "username has a maximum allowed length of 15"
-                    ]
-                }
+            "errors": {
+                "username": [
+                    "username has a maximum allowed length of 15"
+                ]
             }
         };
 

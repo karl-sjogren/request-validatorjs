@@ -28,7 +28,7 @@ declare class RequestValidator {
      * @return {Object} returns all error messages as collection.
      */
     validate(data: any, validation: {}, custom_errors?: any): {
-        "messages": any;
+        "errors": any;
     };
     /**
      * Checks if a bail parameter is present.

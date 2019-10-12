@@ -53,9 +53,9 @@ var RequestValidator = /** @class */ (function () {
             var rules = _this._parseRules(value, custom_errors);
             var errors = _this._loopRules(rules, key, data[key], bail[0]);
             if (errors)
-                errorsCollection[key] = { errors: errors };
+                errorsCollection[key] = errors;
         });
-        return { "messages": errorsCollection };
+        return { "errors": errorsCollection };
     };
     /**
      * Checks if a bail parameter is present.

@@ -44,10 +44,10 @@ class RequestValidator {
 
             let rules: Rule[] = this._parseRules(value, custom_errors);
             let errors = this._loopRules(rules, key, data[key], bail[0]);
-            if (errors) errorsCollection[key] = {errors};
+            if (errors) errorsCollection[key] = errors;
         });
 
-        return {"messages": errorsCollection};
+        return {"errors": errorsCollection};
     }
 
     /**
