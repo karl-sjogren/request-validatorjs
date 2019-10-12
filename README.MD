@@ -54,7 +54,7 @@ Example output of the errors produces in the javascript example.
 ```
 ### Using custom error messages
 
-A example for 
+A example for javascript
 ```javascript
 var data = {
     "name": "example",
