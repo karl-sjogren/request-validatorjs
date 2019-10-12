@@ -24,7 +24,7 @@ A example data payload looks like this
 ### Javascript
 ```javascript
 var RequestValidator = require('request-validator-js');
-var request = new RequestValidator();
+var request = new RequestValidator.RequestValidator();
 let errors = request.validate(data,{
     'token': 'required|max:255',
     'needsToBeString': 'required|string',
