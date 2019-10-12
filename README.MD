@@ -15,7 +15,7 @@ A example data payload looks like this
   "token": "",
   "someValue": "This has a value",
   "aInt": 0,
-  "mayNotBeNull": null
+  "needsToBeString": 255
 }
 ```
 
@@ -25,7 +25,7 @@ var RequestValidator = require('request-validator');
 var request = new RequestValidator();
 let errors = request.validate(data,{
     'token': 'required|max:255',
-    'mayNotBeNull': 'required|notNull',
+    'needsToBeString': 'required|string',
     'doesNotExistInData': 'required',
     });
 ```
