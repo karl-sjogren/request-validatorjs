@@ -7,6 +7,8 @@ Inspired by the Request Validation feature in [laravel](https://laravel.com/docs
 npm install request-validator
 ```
 ## Usage
+For more in depth on how the package works check out the [docs.](https://abborren.github.io/request-validatorjs/)
+
 Some simple examples of usages of this package.
 ### Example payload
 A example data payload looks like this
