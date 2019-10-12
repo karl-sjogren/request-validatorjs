@@ -1,5 +1,5 @@
 {
-  "name": "request-validator",
+  "name": "request-validator-js",
   "version": "1.0.0",
   "description": "A request validator for auto generating error messages",
   "main": "dist/index.js",
