@@ -7,6 +7,8 @@ Inspired by the Request Validation feature in [laravel](https://laravel.com/docs
 npm install request-validator
 ```
 ## Usage
+For more in depth on how the package works check out the [docs.](https://abborren.github.io/request-validatorjs/)
+
 Some simple examples of usages of this package.
 ### Example payload
 A example data payload looks like this
@@ -15,7 +17,7 @@ A example data payload looks like this
   "token": "",
   "someValue": "This has a value",
   "aInt": 0,
-  "mayNotBeNull": null
+  "needsToBeString": 255
 }
 ```
 
@@ -25,7 +27,7 @@ var RequestValidator = require('request-validator');
 var request = new RequestValidator();
 let errors = request.validate(data,{
     'token': 'required|max:255',
-    'mayNotBeNull': 'required|notNull',
+    'needsToBeString': 'required|string',
     'doesNotExistInData': 'required',
     });
 ```
