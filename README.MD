@@ -88,7 +88,7 @@ The output would looks like this.
 ```
 ## Rules
 ### Available rules
-For a list of currently available rule see [RULES](https://github.com/Abborren/request-validatorjs/blob/master/RULES.MD) <br>
+For a list of currently available rule see [RULES](https://github.com/Abborren/request-validatorjs/blob/master/RULES.md) <br>
 A quick reference for the rules are:
 * required
 * min:int
