@@ -7,7 +7,7 @@ Inspired by the Request Validation feature in [laravel](https://laravel.com/docs
 npm install request-validator-js
 ```
 ## Usage
-For more in depth on how the package works check out the [docs.](https://abborren.github.io/request-validatorjs/)
+For more in depth on how the package works check out the [docs.](https://eliasrenman.github.io/request-validatorjs/)
 
 Some simple examples of usages of this package.
 ### Example payload
@@ -88,7 +88,7 @@ The output would looks like this.
 ```
 ## Rules
 ### Available rules
-For a list of currently available rule see [RULES](https://github.com/Abborren/request-validatorjs/blob/master/RULES.md) <br>
+For a list of currently available rule see [RULES](https://github.com/eliasrenman/request-validatorjs/blob/master/RULES.md) <br>
 A quick reference for the rules are:
 * required
 * min:int
